@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 from interview.core.behaviors import IsActiveModel, NameModel, TimestampedModel, UniqueNameModel
@@ -28,15 +30,19 @@ class InventoryType(UniqueNameModel, TimestampedModel, models.Model):
 
 
 class Inventory(NameModel, TimestampedModel, models.Model):
+
     type = models.ForeignKey(
         InventoryType,
         on_delete=models.CASCADE,
-        related_name='inventories'
+        related_name='inventories',
+        null=True
     )
     language = models.ForeignKey(
         InventoryLanguage,
         on_delete=models.CASCADE,
-        related_name='inventories'
+
+        related_name='inventories',
+        null=True,
     )
     tags = models.ManyToManyField(InventoryTag, related_name='inventories')
     metadata = models.JSONField()
@@ -54,3 +60,7 @@ class Inventory(NameModel, TimestampedModel, models.Model):
     @classmethod
     def get_by_language(cls, language_id: int):
         return cls.objects.filter(language_id=language_id)
+
+    @property
+    def get_by_created_date(cls, created_at: datetime.datetime):
+        return cls.objects.filter(created_at__gt=created_at)
