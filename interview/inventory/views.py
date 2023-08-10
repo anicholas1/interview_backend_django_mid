@@ -227,7 +227,8 @@ class InventoryTypeRetrieveUpdateDestroyView(APIView):
 
 class InventoryTypeByDateListView(APIView):
     """
-    Decided to make separate view to override the get_queryset here to make it more readable,
+    Decided to make separate view to override the get_queryset and keep logic separate
+    from the base GET for inventory.
     """
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
