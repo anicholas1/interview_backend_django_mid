@@ -2,20 +2,19 @@
 ### Intro
 Our current project mainly relies on `APIView` in DRF.
 This base class comes with the standard HTTP verbs such as GET
-and POST, along with a few helper methods such as get_queryset and check_permissions.
+and POST, along with a few helper methods such as get_permissions
 
 Here's a tutorial for using APIView:  https://www.django-rest-framework.org/tutorial/3-class-based-views/
 
 
 Start by creating a class in the app inventory/views.py called 
 `InvetoryCreateView` or possibly `InventoryListCreateView` if we
-itend on expanding this API further to handle list requests as well.
+intend on expanding this API further to handle list requests as well.
 
 
 ### Base Class
 ```python
 class InventoryListCreateView(APIView):
-    queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
 ```
 
