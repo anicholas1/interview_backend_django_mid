@@ -30,7 +30,10 @@ class InventoryListCreateView(APIView):
         serializer = self.serializer_class(self.get_queryset(), many=True)
         
         return Response(serializer.data, status=200)
-    
+
+    def get_by_created_date(self):
+        qs = self.get_queryset().filter(created_at__gt=self.request.query_params.get('created_at'))
+
     def get_queryset(self):
         return self.queryset.all()
     
@@ -166,8 +169,9 @@ class InventoryLanguageRetrieveUpdateDestroyView(APIView):
         return Response(status=204)
     
     def get_queryset(self, **kwargs):
+        # This
         return self.queryset.get(**kwargs)
-    
+
 
 class InventoryTypeListCreateView(APIView):
     queryset = InventoryType.objects.all()
@@ -219,3 +223,18 @@ class InventoryTypeRetrieveUpdateDestroyView(APIView):
     
     def get_queryset(self, **kwargs):
         return self.queryset.get(**kwargs)
+
+
+class InventoryTypeByDateListView(APIView):
+    """
+    Decided to make separate view to override the get_queryset here to make it more readable,
+    """
+    queryset = Inventory.objects.all()
+    serializer_class = InventorySerializer
+
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        serializer = self.serializer_class(self.get_queryset(), many=True)
+        return Response(serializer.data, status=200)
+
+    def get_queryset(self):
+        return self.queryset.filter(created_at__gt=self.request.query_params.get('created_at'))

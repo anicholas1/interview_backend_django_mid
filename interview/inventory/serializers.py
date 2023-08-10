@@ -25,6 +25,10 @@ class InventoryTypeSerializer(serializers.ModelSerializer):
 
 
 class InventorySerializer(serializers.ModelSerializer):
+    # Decide whether to use datetime or date. This is a business decision, but probably datetime
+    # to keep it utc
+    created_at = serializers.DateTimeField()
+    updated_at = serializers.DateTimeField()
     type = InventoryTypeSerializer()
     language = InventoryLanguageSerializer()
     tags = InventoryTagSerializer(many=True)
@@ -32,4 +36,4 @@ class InventorySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Inventory
-        fields = ['id', 'name', 'type', 'language', 'tags', 'metadata']
+        fields = ['id', 'created_at', 'updated_at', 'name', 'type', 'language', 'tags', 'metadata']
