@@ -41,7 +41,7 @@ See the docs here: https://docs.pydantic.dev/latest/
 
 We need to add `film_locations` to this model first.
 Look in inventory/schema.py to find the model `InventoryMetaData` and add 
-`film_locations`: list[str].  We can assume it will be a list of strings for now, but 
+`film_locations`: list[tuple].  We can assume it will be a list of tuples for (city, state), but 
 we should clarify this with product.
 
 ### Create Custom Logic
